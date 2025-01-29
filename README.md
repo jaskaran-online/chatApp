@@ -38,7 +38,7 @@ A real-time chat application built with HTML, Tailwind CSS, and JavaScript. This
 chatApp/
 ├── src/              # Source files
 │   ├── register.html # Registration page
-│   ├── login.html    # Login page
+│   ├── index.html    # Login page
 │   ├── dashboard.html# User list/dashboard
 │   ├── chat.html     # Chat interface
 │   └── input.css     # Tailwind input file
@@ -50,6 +50,7 @@ chatApp/
 ## API Integration
 
 The application integrates with the following API endpoints:
+
 - User Registration
 - User Login
 - User List

@@ -22,15 +22,16 @@
 <body class="bg-gray-100">
     <div class="min-h-screen">
         <!-- Header -->
-        <header class="bg-white shadow">
-            <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-                <h1 class="text-xl font-bold text-gray-800">Chat App</h1>
-                <div class="flex items-center space-x-4">
-                    <span id="currentUser" class="text-gray-600"></span>
-                    <button onclick="handleLogout()" class="text-gray-600 hover:text-gray-800">Logout</button>
-                </div>
+        <div class="bg-white shadow">
+            <div class="max-w-7xl mx-auto px-4 py-6 flex justify-between items-center">
+                <h1 class="text-2xl font-semibold text-gray-900">Dashboard</h1>
+                <button onclick="handleLogout()" class="text-gray-600 hover:text-gray-900">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                    </svg>
+                </button>
             </div>
-        </header>
+        </div>
 
         <!-- User List -->
         <div class="max-w-7xl mx-auto px-4 py-6">
@@ -273,6 +274,14 @@
                     localStorage.removeItem('user');
                     window.location.href = 'index.html';
                 }
+            }
+        }
+
+        // Handle logout
+        function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.clear(); // Clear all localStorage items
+                window.location.href = 'index.html';
             }
         }
 
