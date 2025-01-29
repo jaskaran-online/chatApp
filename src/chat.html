@@ -92,6 +92,7 @@
 
     <script>
         let currentChatId = null;
+        let messagePollingInterval = null;
 
         // Check authentication
         function checkAuth() {
@@ -221,9 +222,35 @@
             }
         }
 
+        // Start message polling
+        function startMessagePolling() {
+            // Clear any existing interval
+            if (messagePollingInterval) {
+                clearInterval(messagePollingInterval);
+            }
+
+            // Set new interval to fetch messages every 4 seconds
+            messagePollingInterval = setInterval(() => {
+                if (currentChatId) {
+                    fetchMessages(currentChatId);
+                }
+            }, 4000);
+        }
+
+        // Stop message polling
+        function stopMessagePolling() {
+            if (messagePollingInterval) {
+                clearInterval(messagePollingInterval);
+                messagePollingInterval = null;
+            }
+        }
+
         // Initialize or get chat
         async function initializeChat() {
             if (!checkAuth()) return;
+
+            // Stop any existing polling
+            stopMessagePolling();
 
             const loadingState = document.getElementById('loadingState');
             const errorState = document.getElementById('errorState');
@@ -262,8 +289,11 @@
                     chatContainer.classList.remove('hidden');
                     messageInput.classList.remove('hidden');
 
-                    // Fetch messages
+                    // Fetch initial messages
                     await fetchMessages(currentChatId);
+                    
+                    // Start polling for new messages
+                    startMessagePolling();
                 } else {
                     throw new Error(data.message || 'Failed to initialize chat');
                 }
@@ -396,6 +426,11 @@
             } finally {
                 sendButton.disabled = false;
             }
+        });
+
+        // Clean up on page unload
+        window.addEventListener('beforeunload', () => {
+            stopMessagePolling();
         });
 
         // Initialize on page load
