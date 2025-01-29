@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat - Chat App</title>
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Make the chat container take remaining height */
         #chatContainer {
@@ -188,6 +188,12 @@
             `;
         }
 
+        // Scroll to bottom of messages
+        function scrollToLatestMessage() {
+            const chatContainer = document.getElementById('chatContainer');
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
         // Fetch messages
         async function fetchMessages(chatId) {
             try {
@@ -221,8 +227,8 @@
                             .map(message => createMessageHTML(message, currentUser._id))
                             .join('');
                         
-                        // Scroll to bottom
-                        messageContainer.scrollTop = messageContainer.scrollHeight;
+                        // Scroll to latest message
+                        scrollToLatestMessage();
                     }
                 } else {
                     throw new Error(data.message || 'Failed to fetch messages');
@@ -411,8 +417,9 @@
                     document.getElementById('imagePreview').innerHTML = '';
                     document.getElementById('imagePreview').classList.add('hidden');
 
-                    // Fetch updated messages
+                    // Fetch updated messages and scroll to bottom
                     await fetchMessages(currentChatId);
+                    scrollToLatestMessage();
                 } else {
                     throw new Error(data.message || 'Failed to send message');
                 }
